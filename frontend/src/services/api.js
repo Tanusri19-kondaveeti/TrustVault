@@ -1,8 +1,9 @@
-
-import axios from "axios";
+﻿import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:8081/api",
+  baseURL:
+    import.meta.env.VITE_API_BASE_URL ||
+    "https://trustvault-backend-rie3.onrender.com/api",
   timeout: 15000,
 });
 
