@@ -73,7 +73,8 @@ public class SecurityConfig {
 
         config.setAllowedOrigins(List.of(
                 "http://localhost:5173",
-                "https://trust-vault-zeta-pink.vercel.app"
+                "https://trust-vault-zeta-pink.vercel.app",
+                "https://trust-vault-tanusri19.vercel.app"
         ));
         config.setAllowedMethods(
                 List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
