@@ -1,11 +1,12 @@
-
-import { useState } from "react";
+﻿import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../services/api";
 
+const DEMO_EMAIL = "trustvault.demo@example.com";
+const DEMO_PASSWORD = "admin123";
+
 export default function Login() {
   const navigate = useNavigate();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -17,26 +18,14 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const response = await api.post("/auth/login", {
-        email,
-        password,
-      });
-
+      const response = await api.post("/auth/login", { email, password });
       const data = response.data;
 
-      if (!data.token) {
-        throw new Error("The server did not return a token.");
-      }
+      if (!data.token) throw new Error("The server did not return a token.");
 
       sessionStorage.setItem("token", data.token);
-
-      if (data.role) {
-        sessionStorage.setItem("role", data.role);
-      }
-
-      if (data.userId != null) {
-        sessionStorage.setItem("userId", String(data.userId));
-      }
+      if (data.role) sessionStorage.setItem("role", data.role);
+      if (data.userId != null) sessionStorage.setItem("userId", String(data.userId));
 
       navigate("/dashboard");
     } catch (err) {
@@ -56,6 +45,23 @@ export default function Login() {
       <form className="login-card" onSubmit={handleLogin}>
         <h1>TrustVault</h1>
         <p>Secure document storage and sharing</p>
+
+        <div className="demo-access">
+          <h3>Evaluator Demo Access</h3>
+          <p>Use these demo credentials to explore TrustVault.</p>
+          <p><strong>Email:</strong> {DEMO_EMAIL}</p>
+          <p><strong>Password:</strong> {DEMO_PASSWORD}</p>
+          <button
+            type="button"
+            onClick={() => {
+              setEmail(DEMO_EMAIL);
+              setPassword(DEMO_PASSWORD);
+              setError("");
+            }}
+          >
+            Use Demo Account
+          </button>
+        </div>
 
         <label htmlFor="email">Email address</label>
         <input
